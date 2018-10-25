@@ -18,10 +18,11 @@ SELECT city as 'City', colYear AS 'Year', colMonth AS 'Month', AVG(ArrDelay) AS 
 
 
 # Request 5: Companyies amb més vols cancel·lats ordenades descendentment
-SELECT Description, SUM(Cancelled) AS 'Total cancelled flights' FROM carriers JOIN flights ON carriers.CarrierCode=flights.UniqueCarrier GROUP BY 1 ORDER BY 2 DESC;
+SELECT UniqueCarrier AS 'Plane ID', SUM(Cancelled) AS 'Total cancelled flights' FROM flights WHERE CancellationCode<>'' GROUP BY 1 ORDER BY 2 DESC;
 
 # Request 6: Identificador dels 10 avions que més distància han recorregut fent vols
-SELECT UniqueCarrier AS 'Plane ID:', SUM(Distance) AS 'Total KM:' FROM flights GROUP BY 1 ORDER BY 2 DESC LIMIT 10;
+SELECT TailNum AS 'Plane ID:', SUM(Distance) AS 'Total KM:' FROM flights GROUP BY 1 ORDER BY 2 DESC LIMIT 10;
+### al seleccionar TailNum i haver molts avions sense aquest codi (NA), el primer de la llista és precisament el codi NA que acumula molts km: Falten dades a la BD
 
 # Request 7: Companyies amb un retard promig d'arribada a destí que sigui superior a 10 minuts
 SELECT Description AS 'Company:', AVG(ArrDelay) AS 'Arrival AVG delay:' FROM carriers JOIN flights ON carriers.CarrierCode=flights.UniqueCarrier GROUP BY 1 HAVING AVG(ArrDelay)>10 ORDER BY 2 DESC;
